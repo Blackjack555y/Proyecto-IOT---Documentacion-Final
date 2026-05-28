@@ -7,6 +7,7 @@ Control inalámbrico de mouse y teclado mediante dos joysticks KY-023 y un ESP32
 
 ## Demo
 
+<img width="1599" height="899" alt="image" src="https://github.com/user-attachments/assets/6a1b188f-1ec2-4fc3-a7ec-d7806ca7b287" />
 
 ## ¿Cómo funciona?
 
