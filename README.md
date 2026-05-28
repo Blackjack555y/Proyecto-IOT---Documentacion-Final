@@ -160,8 +160,8 @@ El script se conecta al broker y comienza a controlar el mouse y el teclado en t
 
 | Recurso | Usado | Disponible |
 |---|---|---|
-| Flash | — KB | 4096 KB |
-| RAM | — KB | 520 KB |
+| Flash | 78% | 4096 KB |
+| RAM | 14% | 520 KB |
 
 ---
 
