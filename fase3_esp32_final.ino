@@ -6,8 +6,8 @@
 #include <PubSubClient.h>
 
 // ── Wi-Fi ────────────────────────────────────────────────────────────
-const char* ssid     = "REDMI15C";
-const char* password = "juansami2";
+const char* ssid     = "----";
+const char* password = "----";
 
 // ── HiveMQ Cloud ─────────────────────────────────────────────────────
 const char* mqtt_server   = "902c9c7bb1a74af18a94675dab007c83.s1.eu.hivemq.cloud";
