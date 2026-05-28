@@ -203,6 +203,53 @@ El script se conecta al broker y comienza a controlar el mouse y el teclado en t
 
 ---
 
+
+## Diagrama de Secuencia
+
+```mermaid
+sequenceDiagram
+    participant JOY as KY-023 (Joysticks)
+    participant ESP as ESP32 WROOM-32
+    participant NTP as Servidor NTP
+    participant MQTT as HiveMQ Cloud
+    participant PY as Script Python (PC)
+    participant HID as Mouse / Teclado PC
+
+    Note over ESP: Arranque
+    ESP->>NTP: configTime() — solicita hora actual
+    NTP-->>ESP: timestamp sincronizado
+
+    ESP->>MQTT: Conectar con TLS (puerto 8883)
+    MQTT-->>ESP: CONNACK — conexión aceptada
+
+    ESP->>MQTT: Publish smartjoy/status {"status":"online"}
+
+    PY->>MQTT: Conectar con TLS (puerto 8883)
+    MQTT-->>PY: CONNACK — conexión aceptada
+
+    PY->>MQTT: Subscribe smartjoy/mouse
+    PY->>MQTT: Subscribe smartjoy/keys
+
+    Note over JOY,HID: Operación continua (cada 50ms)
+
+    loop Cada 50ms
+        JOY->>ESP: analogRead() VRx, VRy (JOY1 y JOY2)
+        ESP->>ESP: Calcular velocidad mouse y tecla activa
+        ESP->>MQTT: Publish smartjoy/mouse {"vx":5,"vy":-3,"ts":"..."}
+        ESP->>MQTT: Publish smartjoy/keys {"key":"w","btn":0,"ts":"..."}
+        MQTT-->>PY: Entregar smartjoy/mouse
+        MQTT-->>PY: Entregar smartjoy/keys
+        PY->>HID: mouse.move(vx, vy)
+        PY->>HID: keyboard.press("w")
+    end
+
+    Note over ESP: Cualquier momento
+    ESP->>ESP: GET /status recibido
+    ESP-->>ESP: Responde JSON con uptime, wifi, mqtt, ip, time
+```
+
+---
+
 ## Estructura del repositorio
 
 ```
